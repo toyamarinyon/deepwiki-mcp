@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "TypeScript Library",
+	"compilerOptions": {
+		"composite": false,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"inlineSources": false,
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"preserveWatchOutput": true,
+		"module": "ESNext",
+		"target": "ES2018",
+		"lib": ["dom", "ES2018"],
+		"stripInternal": true
+	},
+	"exclude": ["node_modules", "dist", "build", ".next", "coverage"]
+}
