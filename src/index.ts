@@ -9,7 +9,7 @@ import { createDocumentIndex } from "./document-index.js";
 const server = new McpServer({
 	name: "deepwiki-mcp",
 	description: "Retrieves deepwiki for OSS repositories.",
-	version: "0.0.3",
+	version: "0.0.4",
 	capabilities: {
 		resources: {},
 		tools: {},
@@ -42,11 +42,15 @@ server.tool(
 		if (contentElement) {
 			// Remove all SVG elements
 			const svgElements = contentElement.querySelectorAll("svg");
-			svgElements.forEach((svg) => svg.remove());
+			for (const svg of svgElements) {
+				svg.remove();
+			}
 
 			// Remove all class attributes
 			const elementsWithClass = contentElement.querySelectorAll("[class]");
-			elementsWithClass.forEach((el) => el.removeAttribute("class"));
+			for (const el of elementsWithClass) {
+				el.removeAttribute("class");
+			}
 
 			return {
 				content: [

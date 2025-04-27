@@ -48,14 +48,14 @@ export function createDocumentIndex(doc: Document): DocumentIndex {
 	const topLevelItems: DocumentItem[] = [];
 	const itemsMap: { [key: string]: DocumentItem } = {};
 
-	allItems.forEach((item) => {
+	for (const item of allItems) {
 		if (item.id) {
 			itemsMap[item.id] = item;
 		}
-	});
+	}
 
-	allItems.forEach((item) => {
-		if (!item.id) return;
+	for (const item of allItems) {
+		if (!item.id) continue;
 
 		const idParts = item.id.split(".");
 
@@ -72,16 +72,16 @@ export function createDocumentIndex(doc: Document): DocumentIndex {
 				parent.children.push(item);
 			}
 		}
-	});
+	}
 
 	const cleanupEmptyChildren = (items: DocumentItem[]) => {
-		items.forEach((item) => {
+		for (const item of items) {
 			if (item.children && item.children.length === 0) {
-				delete item.children;
+				item.children = undefined;
 			} else if (item.children) {
 				cleanupEmptyChildren(item.children);
 			}
-		});
+		}
 	};
 
 	cleanupEmptyChildren(topLevelItems);
