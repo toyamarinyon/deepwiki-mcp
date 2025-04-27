@@ -4,8 +4,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { Window } from "happy-dom";
 import { z } from "zod";
+import { createDocumentIndex } from "./document-index.js";
 
-// Create server instance
 const server = new McpServer({
 	name: "deepwiki-mcp",
 	description: "Retrieves deepwiki for OSS repositories.",
@@ -17,14 +17,15 @@ const server = new McpServer({
 });
 
 server.tool(
-	"get-repository-overview",
+	"get-repository-document",
 	"Get the overview for the given repository(owner/repository)",
 	{
-		owner: z.string().describe("Owner of the repository"),
-		repo: z.string().describe("Repository name to get the overview"),
+		path: z
+			.string()
+			.describe("Path to the document provided by get-repository-index"),
 	},
-	async ({ owner, repo }) => {
-		const url = `https://deepwiki.com/${owner}/${repo}`;
+	async ({ path }) => {
+		const url = `https://deepwiki.com${path}`;
 		const response = await fetch(url, {
 			headers: {
 				contentType: "text/html",
@@ -52,6 +53,49 @@ server.tool(
 					{
 						type: "text",
 						text: contentElement.innerHTML,
+					},
+				],
+			};
+		}
+		return {
+			content: [
+				{
+					type: "text",
+					text: `Documentation not found for ${path}.`,
+				},
+			],
+		};
+	},
+);
+
+server.tool(
+	"get-respository-index",
+	"Required first step: get the indexes for the given repository(owner/repository). Must be called before using `get-repository-document`.",
+	{
+		owner: z.string().describe("Owner of the repository"),
+		repo: z.string().describe("Repository name to get the indexes"),
+	},
+	async ({ owner, repo }) => {
+		const url = `https://deepwiki.com/${owner}/${repo}`;
+		const response = await fetch(url, {
+			headers: {
+				contentType: "text/html",
+			},
+		});
+		const html = await response.text();
+		const window = new Window({ url });
+		const document = window.document;
+		document.body.innerHTML = html;
+		const contentElement = document.querySelector(
+			".container-wrapper .container .md\\:w-64",
+		);
+		if (contentElement) {
+			const documentIndex = createDocumentIndex(document);
+			return {
+				content: [
+					{
+						type: "text",
+						text: JSON.stringify(documentIndex),
 					},
 				],
 			};
