@@ -1,17 +1,16 @@
 {
 	"name": "deepwiki-mcp",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "MCP Server for deepwiki",
-	"main": "index.js",
+	"type": "module",
 	"scripts": {
 		"build": "tsup"
 	},
 	"bin": {
 		"deepwiki-mcp": "dist/index.js"
 	},
-	"files": ["dist/"],
+	"files": ["dist"],
 	"author": "@toyamarinyon",
-	"type": "module",
 	"license": "MIT",
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "1.10.2",

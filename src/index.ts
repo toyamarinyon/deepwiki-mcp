@@ -9,7 +9,7 @@ import { createDocumentIndex } from "./document-index.js";
 const server = new McpServer({
 	name: "deepwiki-mcp",
 	description: "Retrieves deepwiki for OSS repositories.",
-	version: "0.0.4",
+	version: "0.0.5",
 	capabilities: {
 		resources: {},
 		tools: {},
@@ -118,7 +118,7 @@ server.tool(
 async function main() {
 	const transport = new StdioServerTransport();
 	await server.connect(transport);
-	console.error("deepwik MCP Server running on stdio");
+	console.error("deepwiki MCP Server running on stdio");
 }
 
 main().catch((error) => {
