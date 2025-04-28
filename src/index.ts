@@ -8,8 +8,8 @@ import { createDocumentIndex } from "./document-index.js";
 
 const server = new McpServer({
 	name: "deepwiki-mcp",
-	description: "Retrieves deepwiki for OSS repositories.",
-	version: "0.0.5",
+	description: "Retrieves DeepWiki for OSS repositories.",
+	version: "0.0.6",
 	capabilities: {
 		resources: {},
 		tools: {},
@@ -17,12 +17,14 @@ const server = new McpServer({
 });
 
 server.tool(
-	"get-repository-document",
-	"Get the overview for the given repository(owner/repository)",
+	"get-deepwiki-page",
+	"Get the page of the DeepWiki for the given path",
 	{
 		path: z
 			.string()
-			.describe("Path to the document provided by get-repository-index"),
+			.describe(
+				"Path to the page of the DeepWiki provided by get-deepwiki-index",
+			),
 	},
 	async ({ path }) => {
 		const url = `https://deepwiki.com${path}`;
@@ -73,8 +75,8 @@ server.tool(
 );
 
 server.tool(
-	"get-respository-index",
-	"Required first step: get the indexes for the given repository(owner/repository). Must be called before using `get-repository-document`.",
+	"get-deepwiki-index",
+	"Required first step: get the indexes for the given repository(owner/repository). Must be called before using `get-deepwiki-page`.",
 	{
 		owner: z.string().describe("Owner of the repository"),
 		repo: z.string().describe("Repository name to get the indexes"),
@@ -118,7 +120,7 @@ server.tool(
 async function main() {
 	const transport = new StdioServerTransport();
 	await server.connect(transport);
-	console.error("deepwiki MCP Server running on stdio");
+	console.error("DeepWiki MCP Server running on stdio");
 }
 
 main().catch((error) => {
