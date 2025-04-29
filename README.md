@@ -1,6 +1,6 @@
-# deepwiki MCP
+# deepwiki MCP Server
 
-This is an unofficial deepwiki mcp
+This is deepwiki mcp server(fan made).
 
 ## Cursor
 
@@ -15,19 +15,19 @@ This is an unofficial deepwiki mcp
 }
 ```
 
-### Zed
+## Zed
 
 ```json
 {
   "context_servers": {
-		"deepwiki": {
-			"command": {
-				"path": "npx",
-				"args": ["-y", "deepwiki-mcp@latest"],
-				"env": null
-			},
-			"settings": {}
-		}
-	},
+    "deepwiki": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "deepwiki-mcp@latest"],
+        "env": null
+      },
+      "settings": {}
+    }
+  },
 }
 ```
